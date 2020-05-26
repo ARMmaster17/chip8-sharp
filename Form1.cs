@@ -28,7 +28,7 @@ namespace chip8_sharp
             string input = textBox1.Text.ToLower();
             string temp = "";
             List<byte> memImage = new List<byte>();
-            for (int i = 0; i < input.Length - 1; i++)
+            for (int i = 0; i < input.Length; i++)
             {
                 // Look for valid character
                 if (input[i] >= 'a' || input[i] <= 'f' || input[i] >= '0' || input[i] <= '9')
@@ -38,7 +38,8 @@ namespace chip8_sharp
                 // Check if temp buffer is full.
                 if (temp.Length == 2)
                 {
-                    memImage.Add(Encoding.Default.GetBytes(temp)[0]);
+                    byte value = Convert.ToByte(temp, 16);
+                    memImage.Add(value);
                     temp = "";
                 }
             }
