@@ -13,6 +13,7 @@ namespace chip8_sharp
     public partial class Form1 : Form
     {
         private Machine.Machine machine = new Machine.Machine();
+        private System.Timers.Timer t = new System.Timers.Timer();
 
         public Form1()
         {
@@ -49,6 +50,23 @@ namespace chip8_sharp
 
         private void runToolStripMenuItem_Click(object sender, EventArgs e)
         {
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            int defaultClock = 1760; // Clock speed of RCS 1802 CPU.
+            t.Interval = 1000 / defaultClock;
+            t.Elapsed += clockTick;
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            t.Interval = 1000 / (double)numericUpDown1.Value;
+        }
+
+        private void clockTick(object sender, EventArgs e)
+        {
+            machine.clockTrigger();
         }
     }
 }
