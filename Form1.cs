@@ -50,6 +50,9 @@ namespace chip8_sharp
 
         private void runToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            t.Start();
+            stopToolStripMenuItem.Enabled = true;
+            runToolStripMenuItem.Enabled = false;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -67,6 +70,13 @@ namespace chip8_sharp
         private void clockTick(object sender, EventArgs e)
         {
             machine.clockTrigger();
+        }
+
+        private void stopToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            t.Stop();
+            stopToolStripMenuItem.Enabled = false;
+            runToolStripMenuItem.Enabled = true;
         }
     }
 }
