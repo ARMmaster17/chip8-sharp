@@ -182,14 +182,25 @@ namespace chip8_sharp.Machine
                 case '6':
                     // 8XY6 Store the value of register VY shifted right one bit in register VX.
                     // Set register VF to the least significant bit prior to the shift.
-                    byte regY = _regs.getGPR(ins.Substring(2, 1));
-                    byte lsb = (byte)(~regY & (byte)1);
-                    _regs.setGPR(ins.Substring(1, 1), (byte)(regY >> 1));
-                    _regs.setGPR("F", lsb);
+                    byte regY6 = _regs.getGPR(ins.Substring(2, 1));
+                    byte lsb6 = (byte)(regY6 & (byte)1); // lsb AND 00000001
+                    _regs.setGPR(ins.Substring(1, 1), (byte)(regY6 >> 1));
+                    _regs.setGPR("F", lsb6);
                     break;
 
                 case '7':
-                // 8XY7 Set register VX to the value of VY minux VX
+                    // 8XY7 Set register VX to the value of VY minux VX. Set VF to 0 if a borrow occurs.
+                    // TODO: VY - VX
+                    break;
+
+                case 'E':
+                    // 8XYE Store the value of register VY shifted left one bit in register VX. Set register VF to the most significant bit prior to the shift.
+                    byte regYE = _regs.getGPR(ins.Substring(2, 1));
+                    byte msbE = (byte)((byte)(regYE & (byte)128) >> 7); // msb AND 10000000 >> 0000000X
+                    _regs.setGPR(ins.Substring(1, 1), (byte)(regYE << 1));
+                    _regs.setGPR("F", msbE);
+                    break;
+
                 default:
                     break;
             }
